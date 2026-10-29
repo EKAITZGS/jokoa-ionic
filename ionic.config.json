@@ -1,0 +1,7 @@
+{
+  "name": "jokoa-ionic",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

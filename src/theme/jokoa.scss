@@ -1,0 +1,204 @@
+/* Componentes del sistema de diseño de Jokoa: los mismos tamaños, radios y colores que en Android */
+html, body { background: var(--jokoa-fondo); }
+ion-content { --background: var(--jokoa-fondo); }
+ion-toolbar { --background: var(--jokoa-fondo); --border-width: 0; --min-height: 0; --padding-top: 0; --padding-bottom: 0; --padding-start: 0; --padding-end: 0; }
+ion-header::after { display: none; }
+* { -webkit-tap-highlight-color: transparent; }
+.pagina { min-height: 100%; }
+
+/* ---------- Cabecera y títulos ---------- */
+.cabecera { display: flex; align-items: center; gap: 12px; padding: 16px 16px 12px; }
+.cabecera img { width: 32px; height: 32px; }
+.titulo { margin: 0; font: 700 24px/32px Roboto, sans-serif; color: var(--jokoa-texto); }
+.cabecera-atras { display: flex; align-items: center; gap: 8px; padding: 8px 8px 8px 8px; }
+.icono-atras { display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; border: 0; background: transparent; border-radius: 50%; color: var(--jokoa-texto); font-size: 24px; cursor: pointer; }
+
+/* ---------- Botones: 56 dp, radio 14, pulsado azul noche + escala 0,98 ---------- */
+.btn { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; min-height: 56px; border: 0; border-radius: var(--jokoa-r-boton); background: var(--jokoa-azul); color: #fff; font: 700 16px/1 Roboto, sans-serif; cursor: pointer; text-decoration: none; transition: transform 0.15s ease, background-color 0.15s ease; }
+.btn:active { transform: scale(0.98); background: var(--jokoa-azul-noche); transition-duration: 0.1s; }
+.btn:disabled { background: var(--jokoa-azul-tenue); color: var(--jokoa-texto-2); transform: none; cursor: default; }
+.btn.coral { background: var(--jokoa-coral-oscuro); }
+.btn.coral:active { background: #8f3517; }
+.btn.coral:disabled { background: var(--jokoa-azul-tenue); }
+.btn.compacto { width: auto; min-height: 48px; padding: 0 20px; font-size: 15px; }
+.btn.tonal { background: var(--jokoa-azul-claro); color: var(--jokoa-azul-noche); }
+.btn.contorno { background: transparent; border: 2px solid var(--jokoa-coral-oscuro); color: var(--jokoa-coral-oscuro); }
+.btn.contorno:active { background: var(--jokoa-coral-tenue); }
+.btn ion-icon { font-size: 20px; }
+.enlace { display: block; min-height: 48px; margin: 12px auto 0; padding: 8px; border: 0; background: none; color: var(--jokoa-coral-oscuro); font: 700 16px/1.4 Roboto, sans-serif; cursor: pointer; }
+.btn-texto { min-height: 48px; padding: 0 16px; border: 0; background: none; color: var(--jokoa-azul); font: 700 16px/1 Roboto, sans-serif; cursor: pointer; }
+
+/* ---------- Campos: contorno de 12, borde #6F7F96, enfocado 2 azul, etiqueta flotante ---------- */
+.campo { position: relative; margin-top: 12px; }
+.campo input, .campo select, .campo textarea { box-sizing: border-box; width: 100%; min-height: 56px; padding: 18px 16px 6px; border: 1px solid var(--jokoa-borde-campo); border-radius: var(--jokoa-r-campo); background: var(--jokoa-superficie); color: var(--jokoa-texto); font: 400 16px/1.4 Roboto, sans-serif; outline: none; appearance: none; transition: border-color 0.15s; }
+.campo textarea { min-height: 96px; padding-top: 22px; resize: none; }
+.campo select { padding-top: 22px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath fill='%235b6b82' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; }
+.campo label { position: absolute; left: 13px; top: 17px; padding: 0 4px; color: var(--jokoa-texto-2); font-size: 16px; line-height: 20px; pointer-events: none; transition: all 0.15s ease; }
+.campo input:focus + label, .campo input:not(:placeholder-shown) + label, .campo textarea:focus + label, .campo textarea:not(:placeholder-shown) + label, .campo select + label { top: -9px; background: var(--jokoa-superficie); border-radius: 4px; font-size: 12px; }
+.campo input:focus, .campo textarea:focus, .campo select:focus { border: 2px solid var(--jokoa-azul); padding-left: 15px; }
+.campo input:focus + label, .campo textarea:focus + label, .campo select:focus + label { color: var(--jokoa-azul); }
+.campo.error input, .campo.error textarea { border: 2px solid var(--jokoa-coral-oscuro); padding-left: 15px; }
+.campo.error label { color: var(--jokoa-coral-oscuro); }
+.campo .ojo { position: absolute; right: 4px; top: 4px; display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; border: 0; background: none; color: var(--jokoa-texto-2); font-size: 22px; cursor: pointer; }
+.campo.con-ojo input { padding-right: 52px; }
+.error-texto { display: flex; align-items: center; gap: 6px; margin: 6px 4px 0; color: var(--jokoa-coral-oscuro); font-size: 12px; }
+.error-texto::before { content: '!'; display: inline-flex; align-items: center; justify-content: center; width: 14px; height: 14px; border-radius: 50%; background: var(--jokoa-coral-oscuro); color: #fff; font-size: 10px; font-weight: 700; }
+
+/* ---------- Tarjetas y píldoras ---------- */
+.tarjeta { background: var(--jokoa-superficie); border: 1px solid var(--jokoa-borde); border-radius: var(--jokoa-r-tarjeta); box-shadow: var(--jokoa-sombra-1); }
+.chip { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; background: var(--jokoa-azul-claro); color: var(--jokoa-azul-noche); font: 700 12px/16px Roboto, sans-serif; white-space: nowrap; }
+.chip.contorno { background: transparent; border: 1px solid var(--jokoa-azul-noche); padding: 5px 11px; }
+.chip.coral { background: var(--jokoa-coral-tenue); color: var(--jokoa-coral-oscuro); }
+.chip.gris { background: var(--jokoa-gris); color: var(--jokoa-texto); }
+.chip.exito { background: var(--jokoa-exito-tenue); color: var(--jokoa-exito); }
+.chip .punto { width: 8px; height: 8px; border-radius: 2px; background: var(--jokoa-coral-oscuro); }
+.chip .punto.redondo { border-radius: 50%; background: var(--jokoa-azul-noche); }
+.chip ion-icon { font-size: 14px; }
+
+/* ---------- Carga, error y vacío ---------- */
+.barra-carga { position: relative; height: 4px; overflow: hidden; background: var(--jokoa-azul-claro); }
+.barra-carga::after { content: ''; position: absolute; top: 0; bottom: 0; width: 40%; background: var(--jokoa-coral); animation: barra 1.4s ease-in-out infinite; }
+@keyframes barra { 0% { left: -40%; } 100% { left: 100%; } }
+.pulso { animation: pulso 0.8s ease-in-out infinite alternate; }
+@keyframes pulso { from { opacity: 1; } to { opacity: 0.35; } }
+.estado-centro { display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 96px 24px 0; color: var(--jokoa-texto); text-align: center; }
+.estado-centro .circulo { display: flex; align-items: center; justify-content: center; width: 80px; height: 80px; border-radius: 50%; background: var(--jokoa-azul-tenue); color: var(--jokoa-azul); font-size: 40px; }
+.estado-centro p { margin: 0; font-size: 16px; }
+.estado-centro p.suave { color: var(--jokoa-texto-2); }
+
+/* ---------- Listas: entrada en cascada (350 ms, 12 %, retraso de 50 ms) ---------- */
+.entra { opacity: 0; animation: entra 350ms ease-out forwards; animation-delay: calc(var(--i, 0) * 50ms); }
+@keyframes entra { from { opacity: 0; transform: translateY(12%); } to { opacity: 1; transform: none; } }
+
+/* ---------- Tarjeta de producto ---------- */
+.producto { display: flex; gap: 12px; margin-bottom: 12px; padding: 8px; color: inherit; text-decoration: none; cursor: pointer; }
+.producto .foto { flex: none; width: 88px; height: 124px; border-radius: 12px; background: var(--jokoa-azul-tenue) url('/assets/logo.svg') center / 40% no-repeat; overflow: hidden; }
+.producto .foto img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.producto.movil .foto { width: 124px; }
+.producto.movil .foto img { object-fit: contain; background: #fff; }
+.producto .cuerpo { display: flex; flex: 1; flex-direction: column; min-width: 0; height: 124px; }
+.producto h3 { margin: 2px 0 0; font: 700 16px/22px Roboto, sans-serif; color: var(--jokoa-texto); }
+.producto .detalle { margin-top: 4px; color: var(--jokoa-texto-2); font-size: 13px; }
+.producto .pie { display: flex; align-items: center; justify-content: space-between; margin-top: auto; }
+.producto .precio { color: var(--jokoa-azul); font: 700 18px/24px Roboto, sans-serif; }
+.producto .ir { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; background: var(--jokoa-azul-tenue); color: var(--jokoa-azul); font-size: 20px; }
+.esqueleto { display: flex; gap: 12px; margin-bottom: 12px; padding: 8px; }
+.esqueleto .b { background: var(--jokoa-gris); border-radius: 6px; }
+.esqueleto .foto { flex: none; width: 88px; height: 124px; border-radius: 12px; background: var(--jokoa-gris); }
+
+/* ---------- Barra inferior de 80 dp con píldora azul claro ---------- */
+ion-tab-bar { --background: #fff; --border: 0; height: 80px; padding: 0; border-top: 1px solid var(--jokoa-borde); contain: none; }
+ion-tab-button { --color: var(--jokoa-texto-2); --color-selected: var(--jokoa-azul-noche); --padding-top: 12px; --padding-bottom: 12px; --ripple-color: transparent; min-width: 0; font: 700 12px/16px Roboto, sans-serif; }
+ion-tab-button .pildora { display: flex; align-items: center; justify-content: center; width: 64px; height: 32px; margin-bottom: 4px; border-radius: 16px; }
+ion-tab-button .pildora ion-icon { width: 24px; height: 24px; font-size: 24px; }
+ion-tab-button.tab-selected .pildora { background: var(--jokoa-azul-claro); animation: pildora 200ms ease-out; }
+ion-tab-button ion-label { display: block; margin: 0; font-weight: 700; font-size: 12px; line-height: 16px; }
+@keyframes pildora { from { transform: scaleX(0.3); } to { transform: none; } }
+
+/* ---------- Pestañas de 48 dp con indicador coral ---------- */
+.pestanas { display: flex; background: var(--jokoa-superficie); }
+.pestanas button { position: relative; flex: 1; min-height: 48px; border: 0; background: none; color: var(--jokoa-texto-2); font: 700 16px/1 Roboto, sans-serif; cursor: pointer; }
+.pestanas button.activa { color: var(--jokoa-azul); }
+.pestanas button.activa::after { content: ''; position: absolute; left: 25%; right: 25%; bottom: 0; height: 3px; border-radius: 3px 3px 0 0; background: var(--jokoa-coral); }
+
+/* ---------- Fila genérica (compras, alquileres y tickets) ---------- */
+.fila { margin-bottom: 12px; padding: 16px; }
+.fila .arriba { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.fila h3 { margin: 0; font: 700 16px/22px Roboto, sans-serif; color: var(--jokoa-texto); }
+.fila .derecha { color: var(--jokoa-azul); font: 700 16px/22px Roboto, sans-serif; white-space: nowrap; }
+.fila .sub { margin-top: 6px; color: var(--jokoa-azul); font: 700 14px/20px Roboto, sans-serif; }
+.fila .txt { margin-top: 6px; color: var(--jokoa-texto-2); font-size: 14px; line-height: 20px; white-space: pre-line; }
+.fila .nota { margin-top: 8px; color: var(--jokoa-texto-2); font-size: 12px; }
+.fila .accion { display: flex; justify-content: flex-end; margin-top: 12px; }
+.fila .chip { margin-top: 10px; }
+.fila .arriba .chip { margin-top: 0; }
+
+/* ---------- Botón flotante extendido y diálogos ---------- */
+.fab { position: fixed; right: 16px; bottom: 16px; z-index: 10; display: flex; align-items: center; gap: 8px; min-height: 56px; padding: 0 20px 0 16px; border: 0; border-radius: 999px; background: var(--jokoa-coral-oscuro); color: #fff; font: 700 16px/1 Roboto, sans-serif; box-shadow: var(--jokoa-sombra-2); cursor: pointer; }
+.fab:active { background: #8f3517; transform: scale(0.98); }
+.fab ion-icon { font-size: 22px; }
+.dialogo-fondo { position: fixed; inset: 0; z-index: 1000; display: flex; align-items: center; justify-content: center; background: rgba(0, 0, 0, 0.55); animation: fundir 200ms ease-out; }
+.dialogo { box-sizing: border-box; width: min(312px, calc(100% - 32px)); max-height: 90%; overflow: auto; padding: 24px 24px 12px; border-radius: 16px; background: #fff; box-shadow: var(--jokoa-sombra-3); animation: dialogo 220ms ease-out; }
+.dialogo h2 { margin: 0 0 16px; font: 500 20px/28px Roboto, sans-serif; color: var(--jokoa-texto); }
+.dialogo .acciones { display: flex; justify-content: flex-end; gap: 8px; margin-top: 16px; }
+.dialogo.lista { padding: 24px 0 8px; }
+.dialogo.lista h2 { padding: 0 24px; margin-bottom: 8px; }
+.dialogo.lista button.opcion { display: flex; align-items: center; justify-content: space-between; width: 100%; min-height: 56px; padding: 0 24px; border: 0; border-top: 1px solid var(--jokoa-borde); background: none; color: var(--jokoa-texto); font: 400 16px/1 Roboto, sans-serif; text-align: left; cursor: pointer; }
+.dialogo.lista button.opcion ion-icon { color: var(--jokoa-texto-2); }
+.dialogo.lista .acciones { margin: 0; padding: 0 12px; border-top: 1px solid var(--jokoa-borde); }
+@keyframes dialogo { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: none; } }
+@keyframes fundir { from { opacity: 0; } to { opacity: 1; } }
+.aviso-jokoa { --background: var(--jokoa-texto); --color: #fff; --border-radius: 12px; font-family: Roboto, sans-serif; }
+
+/* ---------- Fondo decorado (splash y login) ---------- */
+.decorado { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+.decorado span { position: absolute; display: block; border-radius: 24px; background: var(--jokoa-azul-tenue); }
+.decorado .cl { background: var(--jokoa-azul-claro); border-radius: 16px; }
+.decorado .co { background: var(--jokoa-coral-tenue); border-radius: 16px; }
+
+/* ---------- Splash ---------- */
+.splash { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; background: var(--jokoa-fondo); }
+.splash .logo { display: grid; grid-template-columns: 56px 56px; gap: 12px; }
+.splash .logo i { width: 56px; height: 56px; border-radius: 14px; background: var(--jokoa-azul); transform: scale(0); animation: rebote 450ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards; animation-delay: calc(var(--i) * 120ms); }
+.splash .logo i.coral { background: var(--jokoa-coral); }
+.splash h1 { margin: 20px 0 0; color: var(--jokoa-azul); font: 700 44px/52px Roboto, sans-serif; opacity: 0; animation: sube 300ms ease-out 600ms forwards; }
+.splash p { margin: 2px 0 0; color: var(--jokoa-coral-oscuro); font-size: 16px; opacity: 0; animation: sube 300ms ease-out 800ms forwards; }
+@keyframes rebote { to { transform: scale(1); } }
+@keyframes sube { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+
+/* ---------- Login y registro ---------- */
+.formulario { position: relative; padding: 0 16px 32px; }
+.login { display: flex; flex-direction: column; align-items: center; padding-top: 72px; text-align: center; }
+.login img { width: 64px; height: 64px; }
+.login h1 { margin: 8px 0 0; color: var(--jokoa-azul); font: 700 32px/40px Roboto, sans-serif; }
+.login .lema { margin: 4px 0 0; color: var(--jokoa-texto-2); font-size: 14px; }
+.login form { width: 100%; margin-top: 32px; text-align: left; }
+.registro-titulo { display: flex; align-items: center; gap: 12px; margin-top: 8px; }
+.registro-titulo img { width: 36px; height: 36px; }
+.registro-titulo h1 { margin: 0; font: 700 28px/36px Roboto, sans-serif; color: var(--jokoa-texto); }
+
+/* ---------- Ficha de producto ---------- */
+.ficha-arriba { position: relative; display: flex; align-items: flex-start; justify-content: center; height: 320px; padding-top: 24px; background: var(--jokoa-azul-claro); }
+.ficha-arriba .atras { position: absolute; top: 16px; left: 16px; display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; border: 1px solid var(--jokoa-borde); border-radius: 50%; background: #fff; color: var(--jokoa-texto); font-size: 24px; box-shadow: var(--jokoa-sombra-2); cursor: pointer; }
+.ficha-arriba .portada { width: 170px; height: 236px; border-radius: 12px; background: #fff; object-fit: cover; }
+.ficha-arriba .portada.cuadrada { width: 220px; height: 220px; object-fit: contain; }
+.hoja { position: relative; display: flex; flex-direction: column; min-height: calc(100% - 296px); margin-top: -24px; padding: 24px; border-radius: 24px 24px 0 0; background: var(--jokoa-fondo); }
+.hoja h1 { margin: 0; font: 700 28px/36px Roboto, sans-serif; color: var(--jokoa-texto); }
+.hoja .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.hoja .precio-fila { display: flex; align-items: center; justify-content: space-between; margin-top: 16px; }
+.hoja .precio-grande { color: var(--jokoa-azul); font: 700 32px/40px Roboto, sans-serif; }
+.hoja .descripcion { margin: 16px 0 0; color: var(--jokoa-texto); font-size: 16px; line-height: 24px; }
+.hoja .botones { display: flex; flex-direction: column; gap: 8px; margin-top: auto; padding-top: 24px; }
+
+/* ---------- Tiendas ---------- */
+.mapa-caja { position: relative; height: 100%; }
+#mapa { position: absolute; inset: 0; background: #e6ebf0; }
+.mapa-titulo { position: absolute; top: 16px; left: 16px; z-index: 500; display: flex; align-items: center; gap: 10px; padding: 8px 16px; border: 1px solid var(--jokoa-borde); border-radius: 24px; background: #fff; box-shadow: var(--jokoa-sombra-2); font: 700 20px/28px Roboto, sans-serif; color: var(--jokoa-texto); }
+.mapa-titulo img { width: 28px; height: 28px; }
+.tienda-tarjeta { position: absolute; right: 16px; bottom: 16px; left: 16px; z-index: 500; padding: 16px; box-shadow: var(--jokoa-sombra-2); animation: fundir 220ms ease-out; }
+.tienda-tarjeta h3 { display: flex; align-items: center; gap: 10px; margin: 0; color: var(--jokoa-azul); font: 700 18px/26px Roboto, sans-serif; }
+.tienda-tarjeta h3 img { width: 28px; height: 28px; }
+.tienda-tarjeta .dato { display: flex; align-items: center; gap: 12px; margin-top: 8px; color: var(--jokoa-texto); font-size: 14px; }
+.tienda-tarjeta .dato:first-of-type { margin-top: 12px; }
+.tienda-tarjeta .dato ion-icon { flex: none; color: var(--jokoa-texto-2); font-size: 20px; }
+.tienda-tarjeta .btn { margin-top: 16px; }
+.leaflet-container { font-family: Roboto, sans-serif; }
+.pin-tienda { background: none; border: 0; }
+.leaflet-control-attribution { font-size: 10px; }
+.leaflet-top.leaflet-left { top: 72px; }
+
+/* ---------- Perfil ---------- */
+.perfil-cabecera { display: flex; align-items: center; gap: 12px; }
+.perfil-cabecera img { width: 40px; height: 40px; }
+.perfil-cabecera .email { color: var(--jokoa-azul); font-size: 14px; }
+.subtitulo { margin: 24px 0 0; color: var(--jokoa-texto); font: 700 16px/24px Roboto, sans-serif; }
+
+@media (prefers-reduced-motion: reduce) {
+  .entra, .splash .logo i, .splash h1, .splash p, .dialogo, .dialogo-fondo, ion-tab-button.tab-selected ion-icon { animation-duration: 150ms !important; animation-delay: 0ms !important; transform: none !important; }
+}
+
+.ficha-arriba { padding-top: calc(24px + var(--ion-safe-area-top, 0px)); height: calc(320px + var(--ion-safe-area-top, 0px)); }
+.ficha-arriba .atras { top: calc(16px + var(--ion-safe-area-top, 0px)); }
+.ficha-pagina { display: flex; flex-direction: column; min-height: 100%; }
+.ficha-pagina .ficha-arriba { flex: none; }
+.ficha-pagina .hoja { flex: 1; min-height: 0; }
