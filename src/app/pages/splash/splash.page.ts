@@ -14,7 +14,7 @@ import { SesionService } from '../../core/sesion.service';
           <i style="--i: 0"></i><i style="--i: 1"></i><i style="--i: 2"></i><i class="coral" style="--i: 3"></i>
         </div>
         <h1>Jokoa</h1>
-        <p>by JuegAlmi</p>
+        <p>by Jokoa</p>
       </div>
     </ion-content>
   `,
@@ -26,7 +26,7 @@ export class SplashPage implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.temporizador = setTimeout(() => {
-      this.router.navigateByUrl(this.sesion.iniciada() ? '/tabs/juegos' : '/login', { replaceUrl: true });
+      this.router.navigateByUrl(this.sesion.iniciada() ? '/tabs/tienda' : '/login', { replaceUrl: true });
     }, 1700);
   }
 

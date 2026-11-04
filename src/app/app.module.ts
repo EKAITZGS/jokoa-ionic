@@ -8,6 +8,7 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular/lazy';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthInterceptor } from './core/auth.interceptor';
+import { AsesorPage } from './pages/asesor/asesor.page';
 import { DecoradoComponent } from './pages/decorado.component';
 import { DetallePage } from './pages/detalle/detalle.page';
 import { LoginPage } from './pages/login/login.page';
@@ -29,6 +30,7 @@ import { TiendasPage } from './pages/tiendas/tiendas.page';
     RegistroPage,
     TabsPage,
     ProductosPage,
+    AsesorPage,
     DetallePage,
     TiendasPage,
     PedidosPage,

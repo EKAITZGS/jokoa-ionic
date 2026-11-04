@@ -56,7 +56,7 @@ export class LoginPage {
   ionViewWillEnter(): void {
     // Si ya hay una sesión válida se salta el login
     if (this.sesion.iniciada()) {
-      this.router.navigateByUrl('/tabs/juegos', { replaceUrl: true });
+      this.router.navigateByUrl('/tabs/tienda', { replaceUrl: true });
     }
   }
 
@@ -72,7 +72,7 @@ export class LoginPage {
       const respuesta = await this.api.post<{ token: string }>('/login', { email, password: this.password });
       this.sesion.guardar(respuesta.token, email);
       this.password = '';
-      await this.router.navigateByUrl('/tabs/juegos', { replaceUrl: true });
+      await this.router.navigateByUrl('/tabs/tienda', { replaceUrl: true });
     } catch (e: any) {
       this.aviso.mostrar(e?.status === 401 ? 'Email o contraseña incorrectos' : 'No se pudo conectar con el servidor');
     } finally {

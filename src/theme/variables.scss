@@ -48,3 +48,35 @@
   --ion-color-secondary-shade: #a23e1b;
   --ion-color-secondary-tint: #bf5935;
 }
+
+/* Modo oscuro: sigue al sistema, con los mismos tonos que la web y Android */
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --jokoa-azul: #3b82c8;
+    --jokoa-azul-noche: #cfe3f8;
+    --jokoa-azul-claro: #21436b;
+    --jokoa-azul-tenue: #1b2d45;
+    --jokoa-coral: #e0693f;
+    --jokoa-coral-oscuro: #d9623a;
+    --jokoa-coral-tenue: #3a2219;
+    --jokoa-fondo: #0e1621;
+    --jokoa-superficie: #172131;
+    --jokoa-texto: #e6ecf5;
+    --jokoa-texto-2: #9fb0c7;
+    --jokoa-borde: #2b3a51;
+    --jokoa-borde-campo: #7f90a8;
+    --jokoa-gris: #2a3649;
+    --jokoa-exito: #62d197;
+    --jokoa-exito-tenue: #17382a;
+    --jokoa-sombra-1: 0 1px 2px rgba(0, 0, 0, 0.4), 0 4px 12px rgba(0, 0, 0, 0.3);
+    --jokoa-sombra-2: 0 2px 4px rgba(0, 0, 0, 0.5), 0 8px 20px rgba(0, 0, 0, 0.4);
+    --jokoa-sombra-3: 0 8px 16px rgba(0, 0, 0, 0.5), 0 16px 40px rgba(0, 0, 0, 0.5);
+    --ion-background-color: #0e1621;
+    --ion-background-color-rgb: 14, 22, 33;
+    --ion-text-color: #e6ecf5;
+    --ion-text-color-rgb: 230, 236, 245;
+    --ion-color-primary: #3b82c8;
+    --ion-color-primary-rgb: 59, 130, 200;
+  }
+}

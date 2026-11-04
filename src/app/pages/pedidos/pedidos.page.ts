@@ -10,6 +10,7 @@ interface Fila {
   detalle: string;
   devuelto: boolean;
   puedeDevolver: boolean;
+  factura: boolean;
 }
 
 // Historial del usuario: pestaña de compras y pestaña de alquileres (con botón Devolver)
@@ -47,6 +48,9 @@ interface Fila {
             <div class="txt">{{ f.detalle }}</div>
             @if (f.devuelto) {
               <span class="chip exito"><ion-icon name="checkmark"></ion-icon>Devuelto</span>
+            }
+            @if (f.factura) {
+              <div class="accion"><button class="btn tonal compacto" type="button" (click)="descargarFactura(f)">Factura PDF</button></div>
             }
             @if (f.puedeDevolver) {
               <div class="accion"><button class="btn coral compacto" type="button" (click)="devolver(f)">Devolver</button></div>
@@ -104,6 +108,20 @@ export class PedidosPage implements OnInit {
     }
   }
 
+  // La factura necesita la sesión: se baja con el token y se descarga desde un enlace temporal
+  async descargarFactura(f: Fila): Promise<void> {
+    try {
+      const url = URL.createObjectURL(await this.api.archivo(`/compras/${f.id}/factura`));
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `factura-${f.id}.pdf`;
+      a.click();
+      setTimeout(() => URL.revokeObjectURL(url), 10000);
+    } catch (e) {
+      this.aviso.mostrar(mensajeError(e, 'No se pudo descargar la factura'));
+    }
+  }
+
   async devolver(f: Fila): Promise<void> {
     try {
       await this.api.put(`/alquileres/devolver/${f.id}`);
@@ -119,9 +137,12 @@ export class PedidosPage implements OnInit {
       id: c.id,
       titulo: `Compra #${c.id} · ${String(c.fecha).substring(0, 10)}`,
       derecha: euros(Number(c.total)),
-      detalle: (c.lineas ?? []).map((l: any) => `${l.cantidad} × ${l.nombre}`).join('\n'),
+      detalle: (c.lineas ?? [])
+        .map((l: any) => `${l.cantidad} × ${l.nombre}` + (l.garantia_meses > 0 ? ` · garantía +${l.garantia_meses} meses` : ''))
+        .join('\n') + (c.tienda ? `\nRecogida en ${c.tienda.nombre}` : ''),
       devuelto: false,
       puedeDevolver: false,
+      factura: true,
     };
   }
 
@@ -134,6 +155,7 @@ export class PedidosPage implements OnInit {
       detalle: `Del ${a.fecha_inicio} al ${a.fecha_fin}` + (devuelto ? `\nDevuelto el ${a.fecha_devolucion}` : ''),
       devuelto,
       puedeDevolver: !devuelto,
+      factura: false,
     };
   }
 }

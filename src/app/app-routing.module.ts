@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { authGuard } from './core/auth.guard';
+import { AsesorPage } from './pages/asesor/asesor.page';
 import { DetallePage } from './pages/detalle/detalle.page';
 import { LoginPage } from './pages/login/login.page';
 import { PedidosPage } from './pages/pedidos/pedidos.page';
@@ -22,12 +23,12 @@ const routes: Routes = [
     component: TabsPage,
     canActivate: [authGuard],
     children: [
-      { path: 'juegos', component: ProductosPage, data: { ruta: '/videojuegos', titulo: 'Videojuegos', movil: false } },
-      { path: 'moviles', component: ProductosPage, data: { ruta: '/moviles', titulo: 'Móviles', movil: true } },
+      { path: 'tienda', component: ProductosPage },
+      { path: 'asesor', component: AsesorPage },
       { path: 'tiendas', component: TiendasPage },
       { path: 'pedidos', component: PedidosPage },
       { path: 'perfil', component: PerfilPage },
-      { path: '', redirectTo: 'juegos', pathMatch: 'full' },
+      { path: '', redirectTo: 'tienda', pathMatch: 'full' },
     ],
   },
   { path: 'detalle/:tipo/:id', component: DetallePage, canActivate: [authGuard] },

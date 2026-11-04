@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { NavController } from '@ionic/angular/lazy';
 import { ApiService, mensajeError } from '../../core/api.service';
 import { AvisoService } from '../../core/aviso.service';
+import { euros } from '../../core/modelos';
 
 interface Ticket {
   id: number;
@@ -11,7 +12,19 @@ interface Ticket {
   descripcion: string;
   estado: string;
   fecha_apertura: string;
+  tipo: string; // soporte | reparacion
+  presupuesto: number | null;
+  presupuesto_aceptado: boolean | null;
 }
+
+// Etiquetas de estado de las reparaciones
+const ETIQUETAS: Record<string, string> = {
+  recibido: 'Recibido',
+  presupuestado: 'Presupuesto listo',
+  en_reparacion: 'En reparación',
+  listo: 'Listo para recoger',
+  cerrado: 'Cerrado',
+};
 
 // Soporte técnico: tickets del usuario y alta de uno nuevo en un departamento
 @Component({
@@ -41,13 +54,20 @@ interface Ticket {
               <h3>{{ t.asunto }}</h3>
               @switch (t.estado) {
                 @case ('cerrado') { <span class="chip exito"><ion-icon name="checkmark"></ion-icon>Cerrado</span> }
+                @case ('listo') { <span class="chip exito"><ion-icon name="checkmark"></ion-icon>{{ etiqueta(t) }}</span> }
                 @case ('en_proceso') { <span class="chip"><span class="punto redondo"></span>En curso</span> }
+                @case ('en_reparacion') { <span class="chip"><span class="punto redondo"></span>{{ etiqueta(t) }}</span> }
+                @case ('recibido') { <span class="chip coral"><span class="punto"></span>{{ etiqueta(t) }}</span> }
+                @case ('presupuestado') { <span class="chip coral"><span class="punto"></span>{{ etiqueta(t) }}</span> }
                 @default { <span class="chip coral"><span class="punto"></span>Abierto</span> }
               }
             </div>
-            <div class="sub">{{ t.departamento }} · {{ t.dispositivo }}</div>
-            <div class="txt">{{ t.descripcion }}</div>
+            <div class="sub">{{ t.tipo === 'reparacion' ? 'Reparación · ' : '' }}{{ t.departamento }} · {{ t.dispositivo }}</div>
+            <div class="txt">{{ t.descripcion }}{{ extra(t) }}</div>
             <div class="nota">Abierto el {{ t.fecha_apertura.substring(0, 10) }}</div>
+            @if (t.estado === 'presupuestado' && t.presupuesto !== null) {
+              <div class="accion"><button class="btn coral compacto" type="button" (click)="presupuesto = t">Responder al presupuesto</button></div>
+            }
           </div>
         }
       </div>
@@ -58,6 +78,13 @@ interface Ticket {
           <div class="dialogo" (click)="$event.stopPropagation()" role="dialog" aria-label="Nuevo ticket">
             <h2>Nuevo ticket</h2>
             <div class="campo" style="margin-top: 4px">
+              <select id="tipo" name="tipo" [(ngModel)]="tipo">
+                <option value="soporte">Una consulta o incidencia</option>
+                <option value="reparacion">Reparar un equipo</option>
+              </select>
+              <label for="tipo">¿Qué necesitas?</label>
+            </div>
+            <div class="campo">
               <select id="dep" name="dep" [(ngModel)]="departamentoId">
                 @for (d of departamentos; track d.id) { <option [ngValue]="d.id">{{ d.nombre }}</option> }
               </select>
@@ -83,10 +110,26 @@ interface Ticket {
           </div>
         </div>
       }
+      @if (presupuesto) {
+        <div class="dialogo-fondo" (click)="presupuesto = null">
+          <div class="dialogo" (click)="$event.stopPropagation()" role="dialog" aria-label="Presupuesto de la reparación">
+            <h2>Presupuesto de la reparación</h2>
+            <p class="txt" style="margin: 0">El arreglo cuesta {{ euros(presupuesto.presupuesto ?? 0) }}. Si lo aceptas, empezamos a repararlo.</p>
+            <div class="acciones">
+              <button class="btn-texto" type="button" (click)="presupuesto = null">Más tarde</button>
+              <button class="btn-texto" type="button" (click)="responder(false)">Rechazar</button>
+              <button class="btn compacto" type="button" (click)="responder(true)">Aceptar</button>
+            </div>
+          </div>
+        </div>
+      }
     </ion-content>
   `,
 })
 export class SoportePage implements OnInit {
+  tipo = 'soporte';
+  presupuesto: Ticket | null = null;
+  euros = euros;
   tickets: Ticket[] = [];
   departamentos: { id: number; nombre: string }[] = [];
   cargando = true;
@@ -126,6 +169,33 @@ export class SoportePage implements OnInit {
     }
   }
 
+  etiqueta(t: Ticket): string {
+    return ETIQUETAS[t.estado] ?? t.estado;
+  }
+
+  // Líneas extra de una reparación: presupuesto y avisos de estado
+  extra(t: Ticket): string {
+    let texto = '';
+    if (t.tipo === 'reparacion' && t.presupuesto !== null) texto += `\nPresupuesto: ${euros(t.presupuesto)}`;
+    if (t.estado === 'listo') texto += '\nTu equipo está listo: puedes recogerlo en tu tienda Jokoa.';
+    if (t.estado === 'cerrado' && t.presupuesto_aceptado === false) texto += '\nRechazaste el presupuesto.';
+    return texto;
+  }
+
+  // El cliente acepta o rechaza el presupuesto: aceptado empieza la reparación, rechazado cierra el ticket
+  async responder(aceptado: boolean): Promise<void> {
+    if (!this.presupuesto) return;
+    const id = this.presupuesto.id;
+    this.presupuesto = null;
+    try {
+      await this.api.put(`/tickets/presupuesto/${id}`, { aceptado });
+      this.aviso.mostrar(aceptado ? 'Presupuesto aceptado: empezamos la reparación' : 'Presupuesto rechazado');
+      this.cargar();
+    } catch (e) {
+      this.aviso.mostrar(mensajeError(e, 'No se pudo responder al presupuesto'));
+    }
+  }
+
   abrir(): void {
     if (!this.departamentos.length) {
       this.aviso.mostrar('Cargando departamentos, inténtalo de nuevo');
@@ -147,6 +217,7 @@ export class SoportePage implements OnInit {
     this.enviando = true;
     try {
       await this.api.post('/tickets/add', {
+        tipo: this.tipo,
         departamento_id: this.departamentoId,
         asunto: this.asunto.trim(),
         dispositivo: this.dispositivo.trim(),
